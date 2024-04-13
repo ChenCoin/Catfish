@@ -78,7 +78,6 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var rect = Offset.zero & Size(size.width, gridHeight);
     drawPieces(canvas, grid, data);
   }
 

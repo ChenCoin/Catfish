@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class GridData {
   static const int col = 10;
 
@@ -21,6 +23,11 @@ class GridData {
     }
   }
 
+  void init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    highestScore = prefs.getInt('highestScore') ?? 0;
+  }
+
   void start() {
     print('start');
     score = 0;
@@ -32,9 +39,12 @@ class GridData {
     }
   }
 
-  void end() {
-    print('end');
-    highestScore = max(score, highestScore);
+  void end() async {
+    if (score > highestScore) {
+      highestScore = score;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt('highestScore', highestScore);
+    }
     score = 0;
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {

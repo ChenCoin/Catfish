@@ -7,11 +7,15 @@ import 'view/count_down.dart';
 import 'view/draw_board.dart';
 
 void main() {
-  runApp(const MyApp());
+  final data = GridData();
+  data.init();
+  runApp(MyApp(data: data));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final GridData data;
+
+  const MyApp({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +25,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page', data: data),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  final GridData data;
 
   final String title;
+
+  const MyHomePage({super.key, required this.title, required this.data});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -40,8 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const String gameEnd = 'End';
 
-  final GridData data = GridData();
-
   String btnText = gameStart;
 
   // 游戏状态，true为进行中，false为空闲中
@@ -49,14 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _gameStart() {
     setState(() {
-      data.start();
+      widget.data.start();
       btnText = gameEnd;
     });
   }
 
   void _gameOver() {
     setState(() {
-      data.end();
+      widget.data.end();
       btnText = gameStart;
     });
   }
@@ -94,14 +98,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'SCORE: ${data.score}',
+                      'SCORE: ${widget.data.score}',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'HighestScore: ${data.highestScore}',
+                      'HighestScore: ${widget.data.highestScore}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -128,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: GameBoard(
                     size: Size(width, height),
                     callback: _onScoreChanged,
-                    data: data,
+                    data: widget.data,
                   ),
                 ),
               ],
