@@ -40,7 +40,7 @@ class _GestureBoxState extends State<GestureBox> {
   }
 
   Rect mapRect(Rect src) {
-    var grid = widget.size.width / (GridData.col + 2);
+    var grid = widget.size.width / (GridData.col);
     return Rect.fromLTRB(
         src.left / grid, src.top / grid, src.right / grid, src.bottom / grid);
   }

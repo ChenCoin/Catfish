@@ -45,10 +45,10 @@ class _DrawBoard extends State<CustomPaintRoute> {
   }
 
   void onGesture(Rect rect) {
-    int left = rect.left.floor() - 1;
-    int top = rect.top.floor() - 1;
-    int right = rect.right.floor() - 1;
-    int bottom = rect.bottom.floor() - 1;
+    int left = rect.left.floor();
+    int top = rect.top.floor();
+    int right = rect.right.floor();
+    int bottom = rect.bottom.floor();
     bool change = widget.data.onGridDrag(left, top, right, bottom);
     if (change) {
       setState(() {});

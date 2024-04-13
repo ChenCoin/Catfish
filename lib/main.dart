@@ -65,8 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final double width = min(screenSize.width, 440);
-    double height = width / 2 * 3;
+    // 宽度为屏幕宽度 - 40，特殊适配大屏
+    final double width = min(screenSize.width - 40, 400);
+    double height = width / 10 * 16;
     return Scaffold(
       body: Center(
         child: Column(

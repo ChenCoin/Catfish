@@ -45,15 +45,15 @@ void drawBackground(Canvas canvas, Rect rect, double grid) {
 
   //画横线
   for (int i = 0; i <= GridData.row; i++) {
-    double dy = rect.top + grid * (i + 1);
+    double dy = rect.top + grid * i;
     canvas.drawLine(
-        Offset(rect.left + grid, dy), Offset(rect.right - grid, dy), paint);
+        Offset(rect.left, dy), Offset(rect.right, dy), paint);
   }
 
   for (int i = 0; i <= GridData.col; i++) {
-    double dx = rect.left + grid * (i + 1);
+    double dx = rect.left + grid * i;
     canvas.drawLine(
-        Offset(dx, rect.top + grid), Offset(dx, rect.bottom - grid), paint);
+        Offset(dx, rect.top), Offset(dx, rect.bottom), paint);
   }
 }
 
@@ -72,7 +72,7 @@ void drawPieces(Canvas canvas, Rect rect, double grid, GridData data) {
       }
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
-      paint.paint(canvas, Offset(grid * (j + 1), grid * (i + 1) + 6));
+      paint.paint(canvas, Offset(grid * j, grid * i + 6));
     }
   }
 }
@@ -89,8 +89,8 @@ class MyPainter extends CustomPainter {
   final bool repaint;
 
   MyPainter({required this.width, required this.data, required this.repaint}) {
-    grid = width / (GridData.col + 2);
-    gridHeight = grid * (GridData.row + 2);
+    grid = width / (GridData.col);
+    gridHeight = grid * (GridData.row);
   }
 
   @override
