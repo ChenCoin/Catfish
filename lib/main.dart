@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/grid_data.dart';
 import 'view/black_board.dart';
 import 'view/count_down.dart';
-import 'view/draw_board.dart';
+import 'view/game_board.dart';
 
 void main() {
   final data = GridData();
