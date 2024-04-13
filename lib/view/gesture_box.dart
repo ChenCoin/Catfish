@@ -49,17 +49,21 @@ class _GestureBoxState extends State<GestureBox> {
 class _CanvasPaint extends CustomPainter {
   final Rect rect;
 
-  final thePaint = Paint()
-    ..color = Colors.black54
-    ..strokeWidth = 1
-    ..strokeCap = StrokeCap.round
-    ..style = PaintingStyle.stroke;
-
-  _CanvasPaint({required this.rect});
+  const _CanvasPaint({required this.rect});
 
   @override
   void paint(Canvas canvas, Size size) {
+    final thePaint = Paint()
+      ..color = const Color(0x403030D9)
+      ..strokeCap = StrokeCap.round;
+    thePaint.style = PaintingStyle.fill;
     canvas.drawRect(rect, thePaint);
+
+    thePaint.strokeWidth = 2;
+    thePaint.color = Colors.white60;
+    thePaint.style = PaintingStyle.stroke;
+    canvas.drawRect(rect, thePaint);
+
   }
 
   @override

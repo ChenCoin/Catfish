@@ -3,7 +3,7 @@ import '../data/GridData.dart';
 import 'gesture_box.dart';
 import 'num_board.dart';
 
-class CustomPaintRoute extends StatefulWidget {
+class GameBoard extends StatefulWidget {
   // 画布宽度
   final Size size;
 
@@ -11,7 +11,7 @@ class CustomPaintRoute extends StatefulWidget {
 
   final GridData data;
 
-  const CustomPaintRoute({
+  const GameBoard({
     super.key,
     required this.size,
     required this.callback,
@@ -22,7 +22,7 @@ class CustomPaintRoute extends StatefulWidget {
   State<StatefulWidget> createState() => _DrawBoard();
 }
 
-class _DrawBoard extends State<CustomPaintRoute> {
+class _DrawBoard extends State<GameBoard> {
   @override
   Widget build(BuildContext context) {
     final size = widget.size;

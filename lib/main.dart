@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   width: width,
                   height: height,
-                  child: CustomPaintRoute(
+                  child: GameBoard(
                     size: Size(width, height),
                     callback: _onScoreChanged,
                     data: data,
