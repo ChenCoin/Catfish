@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'data/GridData.dart';
+import 'view/black_board.dart';
 import 'view/draw_board.dart';
 
 void main() {
@@ -66,9 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
-    final double width = min(screenSize.width - 40, 400);
+    final double width = min(screenSize.width - 32, 400);
     double height = width / 10 * 16;
     return Scaffold(
+      backgroundColor: const Color(0xff8A9CA0),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,10 +97,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            CustomPaintRoute(
-              size: Size(width, height),
-              callback: _onScoreChanged,
-              data: data,
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                RepaintBoundary(
+                    child: BlackBoard(size: Size(width + 20, height + 20))),
+                SizedBox(
+                  width: width,
+                  height: height,
+                  child: CustomPaintRoute(
+                    size: Size(width, height),
+                    callback: _onScoreChanged,
+                    data: data,
+                  ),
+                ),
+              ],
             ),
             TextButton(
               onPressed: () => _onBtnTap(),

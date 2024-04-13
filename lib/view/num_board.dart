@@ -24,45 +24,47 @@ class _NumBoardState extends State<NumBoard> {
     var size = widget.size;
     return CustomPaint(
       size: size,
-      painter: MyPainter(width: size.width, data: widget.data, repaint: repaint),
+      painter:
+          MyPainter(width: size.width, data: widget.data, repaint: repaint),
     );
   }
 }
 
 void drawBackground(Canvas canvas, Rect rect, double grid) {
-  //棋盘背景
+  //画棋盘网格
   var paint = Paint()
     ..isAntiAlias = true
-    ..style = PaintingStyle.fill //填充
-    ..color = const Color(0xffffffff);
-  canvas.drawRect(rect, paint);
-
-  //画棋盘网格
-  paint
     ..style = PaintingStyle.stroke //线
-    ..color = Colors.black38
+    ..color = const Color(0xFF56B293)
     ..strokeWidth = 1.0;
 
   //画横线
   for (int i = 0; i <= GridData.row; i++) {
     double dy = rect.top + grid * i;
-    canvas.drawLine(
-        Offset(rect.left, dy), Offset(rect.right, dy), paint);
+    canvas.drawLine(Offset(rect.left, dy), Offset(rect.right, dy), paint);
   }
 
   for (int i = 0; i <= GridData.col; i++) {
     double dx = rect.left + grid * i;
-    canvas.drawLine(
-        Offset(dx, rect.top), Offset(dx, rect.bottom), paint);
+    canvas.drawLine(Offset(dx, rect.top), Offset(dx, rect.bottom), paint);
   }
 }
 
 // 绘制数字
 void drawPieces(Canvas canvas, Rect rect, double grid, GridData data) {
+  int p = 7;
+  var gridPaint = Paint()
+    ..isAntiAlias = true
+    ..style = PaintingStyle.fill
+    ..color = Colors.white;
   var paint = TextPainter()
     ..textAlign = TextAlign.center
     ..textDirection = TextDirection.ltr;
-  const style = TextStyle(color: Colors.black, fontSize: 20);
+  const style = TextStyle(
+    color: Colors.black,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
   for (int i = 0; i < GridData.row; i++) {
     var list = data.grids[i];
     for (int j = 0; j < GridData.col; j++) {
@@ -70,9 +72,15 @@ void drawPieces(Canvas canvas, Rect rect, double grid, GridData data) {
       if (content == 0) {
         continue;
       }
+      var left = grid * j + p;
+      var top = grid * i + p;
+      var right = left + grid - p * 2;
+      var bottom = top + grid - p * 2;
+      var gridRect = Rect.fromLTRB(left, top, right, bottom);
+      canvas.drawRect(gridRect, gridPaint);
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
-      paint.paint(canvas, Offset(grid * j, grid * i + 6));
+      paint.paint(canvas, Offset(grid * j, grid * i + 4));
     }
   }
 }

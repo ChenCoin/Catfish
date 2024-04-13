@@ -27,6 +27,7 @@ class _DrawBoard extends State<CustomPaintRoute> {
   Widget build(BuildContext context) {
     final size = widget.size;
     return Stack(
+      alignment: Alignment.center,
       children: [
         RepaintBoundary(
           child: NumBoard(
