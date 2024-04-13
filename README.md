@@ -12,11 +12,13 @@
 ### 命令行备忘
 
 1. 命令行编译Web：  
-C:\flutter\bin\flutter pub add flutter_localizations --sdk=flutter
+   C:\flutter\bin\flutter build web --web-renderer canvaskit --release --base-href=/catfish/
 
 2. 修改hosts文件  
-windows上hosts文件路径为 C:\Windows\System32\drivers\etc\hosts
-刷新本地dns数据 ipconfig /flushdns
+windows上hosts文件路径为 
+C:\Windows\System32\drivers\etc\hosts  
+刷新本地dns数据  
+ipconfig /flushdns
 
 3. 语言文本文件更新  
 C:\flutter\bin\flutter gen-l10n
