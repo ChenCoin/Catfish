@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/GridData.dart';
+import '../data/grid_data.dart';
 import 'gesture_box.dart';
 import 'num_board.dart';
 

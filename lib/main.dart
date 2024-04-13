@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'data/GridData.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'data/grid_data.dart';
 import 'view/black_board.dart';
 import 'view/count_down.dart';
 import 'view/draw_board.dart';
@@ -21,6 +24,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff8A9CA0)),
         useMaterial3: true,
@@ -42,9 +52,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const String gameStart = 'Start';
+  static String gameStart = 'Start';
 
-  static const String gameEnd = 'End';
+  static String gameEnd = 'End';
 
   String btnText = gameStart;
 
@@ -84,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // 宽度为屏幕宽度 - 40，特殊适配大屏
     final double width = min(screenSize.width - 32, 400);
     double height = width / 10 * 16;
+    var scoreText = AppLocalizations.of(context)!.score;
+    var highestScoreText = AppLocalizations.of(context)!.highestScore;
     return Scaffold(
       backgroundColor: const Color(0xff8A9CA0),
       body: Center(
@@ -98,25 +110,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'SCORE: ${widget.data.score}',
+                      '$scoreText: ${widget.data.score}',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'HighestScore: ${widget.data.highestScore}',
+                      '$highestScoreText: ${widget.data.highestScore}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   if (gameState) ...[
-                    TimerText(
-                      secondCount: 120,
-                      onTickEnd: () {
-                        gameState = false;
-                        _gameOver();
-                      },
-                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: TimerText(
+                          secondCount: 120,
+                          onTickEnd: () {
+                            gameState = false;
+                            _gameOver();
+                          },
+                        ),
+                      ),
+                    )
                   ]
                 ],
               ),
@@ -140,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () => _onBtnTap(),
               style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(const Size(120, 48))),
+                  minimumSize: MaterialStateProperty.all(const Size(200, 54))),
               child: Text(
                 btnText,
                 style: const TextStyle(

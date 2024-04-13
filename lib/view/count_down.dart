@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimerText extends StatefulWidget {
   final int secondCount;
@@ -30,7 +31,9 @@ class _TimerTextState extends State<TimerText> {
   Widget build(BuildContext context) {
     var minute = (secondCount / 60).floor().toString().padLeft(2, '0');
     var second = (secondCount % 60).toString().padLeft(2, '0');
-    return Text('$minute:$second');
+    var content = AppLocalizations.of(context)!.remainingTime;
+    return Text('$content $minute:$second'
+    );
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/GridData.dart';
+import '../data/grid_data.dart';
 
 class GestureBox extends StatefulWidget {
   final void Function(Rect rect) callback;

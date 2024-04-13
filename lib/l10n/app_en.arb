@@ -1,0 +1,11 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "startGame": "Start Game",
+  "endGame": "End",
+  "score": "SCORE",
+  "highestScore": "Highest Score",
+  "remainingTime": "Remaining Time"
+}

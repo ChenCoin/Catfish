@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/GridData.dart';
+import '../data/grid_data.dart';
 
 class NumBoard extends StatefulWidget {
   final Size size;
@@ -57,7 +57,7 @@ void drawPieces(Canvas canvas, double grid, GridData data) {
       // 画数字
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
-      paint.paint(canvas, Offset(grid * j, grid * i + 8));
+      paint.paint(canvas, Offset(grid * j, grid * i + 6));
     }
   }
 }

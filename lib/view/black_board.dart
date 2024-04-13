@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/GridData.dart';
+import '../data/grid_data.dart';
 
 class BlackBoard extends StatelessWidget {
   final Size size;
