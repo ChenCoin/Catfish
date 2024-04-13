@@ -1,26 +1,26 @@
 # catfish
 
-A new Flutter project.
+## 消灭数字
 
-## Getting Started
+一个用Flutter编写的小游戏。在 10 x 16 的格子中，每个格子随机出现 1-9 的数字。圈出加起来的和为10的数字。
 
-This project is a starting point for a Flutter application.
+## 版本计划
+- [x] 1.0.0 完成基本的数字圈出功能，统计本局分数。
+- [x] 1.5.0 每局游戏限时2分钟，统计最高分，完善游戏画面。
+- [ ] 2.0.0 完善游戏界面，加入动画
 
-A few resources to get you started if this is your first Flutter project:
+### 命令行备忘
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-命令行编译Web：
+1. 命令行编译Web：  
 C:\flutter\bin\flutter pub add flutter_localizations --sdk=flutter
 
-修改hosts文件
+2. 修改hosts文件  
 windows上hosts文件路径为 C:\Windows\System32\drivers\etc\hosts
 刷新本地dns数据 ipconfig /flushdns
 
-语言文本文件更新
+3. 语言文本文件更新  
 C:\flutter\bin\flutter gen-l10n
+
+### todo
+
+- [ ] 适配不同分辨率的屏幕
