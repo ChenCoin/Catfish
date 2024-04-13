@@ -57,7 +57,7 @@ void drawPieces(Canvas canvas, double grid, GridData data) {
       // 画数字
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
-      paint.paint(canvas, Offset(grid * j, grid * i + 4));
+      paint.paint(canvas, Offset(grid * j, grid * i + 8));
     }
   }
 }
