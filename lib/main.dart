@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'data/GridData.dart';
 import 'view/black_board.dart';
+import 'view/count_down.dart';
 import 'view/draw_board.dart';
 
 void main() {
@@ -46,17 +47,27 @@ class _MyHomePageState extends State<MyHomePage> {
   // 游戏状态，true为进行中，false为空闲中
   bool gameState = false;
 
-  void _onBtnTap() {
+  void _gameStart() {
     setState(() {
-      gameState = !gameState;
-      if (gameState) {
-        data.start();
-        btnText = gameEnd;
-      } else {
-        data.end();
-        btnText = gameStart;
-      }
+      data.start();
+      btnText = gameEnd;
     });
+  }
+
+  void _gameOver() {
+    setState(() {
+      data.end();
+      btnText = gameStart;
+    });
+  }
+
+  void _onBtnTap() {
+    gameState = !gameState;
+    if (gameState) {
+      _gameStart();
+    } else {
+      _gameOver();
+    }
   }
 
   void _onScoreChanged() {
@@ -94,6 +105,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
+                  if (gameState) ...[
+                    TimerText(
+                      secondCount: 120,
+                      onTickEnd: () {
+                        gameState = false;
+                        _gameOver();
+                      },
+                    ),
+                  ]
                 ],
               ),
             ),
