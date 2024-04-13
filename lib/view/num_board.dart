@@ -25,7 +25,7 @@ class _NumBoardState extends State<NumBoard> {
 }
 
 // 绘制数字
-void drawPieces(Canvas canvas, Rect rect, double grid, GridData data) {
+void drawPieces(Canvas canvas, double grid, GridData data) {
   int p = 7;
   var gridPaint = Paint()
     ..isAntiAlias = true
@@ -46,12 +46,15 @@ void drawPieces(Canvas canvas, Rect rect, double grid, GridData data) {
       if (content == 0) {
         continue;
       }
+      // 画小白块
       var left = grid * j + p;
       var top = grid * i + p;
       var right = left + grid - p * 2;
       var bottom = top + grid - p * 2;
-      var gridRect = Rect.fromLTRB(left, top, right, bottom);
-      canvas.drawRect(gridRect, gridPaint);
+      var rect = Rect.fromLTRB(left, top, right, bottom);
+      RRect whiteGrid = RRect.fromRectAndRadius(rect, const Radius.circular(2));
+      canvas.drawRRect(whiteGrid, gridPaint);
+      // 画数字
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
       paint.paint(canvas, Offset(grid * j, grid * i + 4));
@@ -76,7 +79,7 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & Size(size.width, gridHeight);
-    drawPieces(canvas, rect, grid, data);
+    drawPieces(canvas, grid, data);
   }
 
   @override
