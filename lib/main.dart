@@ -102,10 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
     var highestScoreText = AppLocalizations.of(context)!.highestScore;
     return Scaffold(
       backgroundColor: const Color(0xff8A9CA0),
-      body: Center(
+      body: Align(
+        alignment: Alignment.topCenter,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Padding(padding: EdgeInsets.all(8)),
             SizedBox(
               width: width,
               height: 48,
