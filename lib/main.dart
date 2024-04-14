@@ -52,8 +52,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // 游戏状态，true为进行中，false为空闲中
-  bool gameState = false;
+  // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束
+  int gameState = 0;
 
   void _gameStart() {
     setState(() {
@@ -68,11 +68,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onBtnTap() {
-    gameState = !gameState;
-    if (gameState) {
+    if (gameState == 0) {
+      gameState = 1;
       _gameStart();
-    } else {
+      return;
+    }
+    if (gameState == 1) {
+      gameState = 2;
       _gameOver();
+      return;
+    }
+    if (gameState == 2) {
+      gameState = 1;
+      _gameStart();
+      return;
     }
   }
 
@@ -115,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  if (gameState) ...[
+                  if (gameState == 1) ...[
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
@@ -123,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: TimerText(
                           secondCount: 120,
                           onTickEnd: () {
-                            gameState = false;
+                            gameState = 2;
                             _gameOver();
                           },
                         ),
@@ -154,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all(const Size(200, 54))),
               child: Text(
-                gameState ? gameEnd : gameStart,
+                gameState == 1 ? gameEnd : gameStart,
                 style: const TextStyle(
                   fontSize: 24,
                 ),
