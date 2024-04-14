@@ -2,7 +2,9 @@
     "helloWorld": "你好",
     "startGame": "开始游戏",
     "endGame": "结束",
+    "restartGame": "重新开始",
     "score": "分数",
     "highestScore": "最高分",
-    "remainingTime": "剩余时间"
+    "remainingTime": "剩余时间",
+    "scoreNow": "本局分数"
 }

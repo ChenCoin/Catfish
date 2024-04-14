@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/grid_data.dart';
@@ -92,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final String gameStart = AppLocalizations.of(context)!.startGame;
+    final String gameRestart = AppLocalizations.of(context)!.restartGame;
     final String gameEnd = AppLocalizations.of(context)!.endGame;
     final screenSize = MediaQuery.of(context).size;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
@@ -106,39 +107,41 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: width - 20,
-              height: 64,
+              width: width,
+              height: 48,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '$scoreText: ${widget.data.score}',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '$highestScoreText: ${widget.data.highestScore}',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
                   if (gameState == 1) ...[
                     Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: TimerText(
-                          secondCount: 120,
-                          onTickEnd: () {
-                            gameState = 2;
-                            _gameOver();
-                          },
-                        ),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '$scoreText: ${widget.data.score}',
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                    )
-                  ]
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TimerText(
+                              secondCount: 120,
+                              onTickEnd: () {
+                                gameState = 2;
+                                _gameOver();
+                              },
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => _onBtnTap(),
+                            child: Text(gameEnd),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -156,19 +159,64 @@ class _MyHomePageState extends State<MyHomePage> {
                     data: widget.data,
                   ),
                 ),
+                if (gameState != 1) ...[
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: const Color(0x80FFFFFF),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black54,
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 16.0),
+                        ]),
+                    child: SizedBox(
+                      width: 300,
+                      height: 400,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (gameState == 2) ...[
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                '本局分数',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            Text(
+                              '${widget.data.score}',
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ],
+                          const Padding(padding: EdgeInsets.all(24)),
+                          TextButton(
+                            onPressed: () => _onBtnTap(),
+                            style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(200, 54))),
+                            child: Text(
+                              gameState == 0 ? gameStart : gameRestart,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                              '$highestScoreText: ${widget.data.highestScore}',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ]
               ],
             ),
-            TextButton(
-              onPressed: () => _onBtnTap(),
-              style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(const Size(200, 54))),
-              child: Text(
-                gameState == 1 ? gameEnd : gameStart,
-                style: const TextStyle(
-                  fontSize: 24,
-                ),
-              ),
-            )
           ],
         ),
       ),

@@ -5,7 +5,9 @@
   },
   "startGame": "Start Game",
   "endGame": "End",
+  "restartGame": "Restart",
   "score": "SCORE",
   "highestScore": "Highest Score",
-  "remainingTime": "Remaining Time"
+  "remainingTime": "Remaining Time",
+  "scoreNow": "Score of the game"
 }

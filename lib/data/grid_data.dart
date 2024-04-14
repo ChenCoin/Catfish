@@ -45,7 +45,6 @@ class GridData {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt('highestScore', highestScore);
     }
-    score = 0;
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
         grids[i][j] = 0;
