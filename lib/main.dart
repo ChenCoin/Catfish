@@ -52,26 +52,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static String gameStart = 'Start';
-
-  static String gameEnd = 'End';
-
-  String btnText = gameStart;
-
   // 游戏状态，true为进行中，false为空闲中
   bool gameState = false;
 
   void _gameStart() {
     setState(() {
       widget.data.start();
-      btnText = gameEnd;
     });
   }
 
   void _gameOver() {
     setState(() {
       widget.data.end();
-      btnText = gameStart;
     });
   }
 
@@ -90,6 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final String gameStart = AppLocalizations.of(context)!.startGame;
+    final String gameEnd = AppLocalizations.of(context)!.endGame;
     final screenSize = MediaQuery.of(context).size;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
     final double width = min(screenSize.width - 32, 400);
@@ -160,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all(const Size(200, 54))),
               child: Text(
-                btnText,
+                gameState ? gameEnd : gameStart,
                 style: const TextStyle(
                   fontSize: 24,
                 ),
