@@ -29,11 +29,32 @@ class GridData {
   }
 
   void start() {
-    print('start');
     score = 0;
     var random = Random();
+    // 加入最多32个成对的数字组合，因为可能选到不可放置的格子，尝试次数总共100次
+    int max = 32;
+    for (int i = 0; i < 100; i++) {
+      int number = random.nextInt(9) + 1;
+      int numberNext = 10 - number;
+      (int, int, int, int) thePoint = findPoint(random);
+      if (thePoint.$1 == -1) {
+        continue;
+      }
+      grids[thePoint.$2][thePoint.$1] = number;
+      grids[thePoint.$4][thePoint.$3] = numberNext;
+      max--;
+      if (max <= 0) {
+        break;
+      }
+    }
+    print('number add: ${30 - max}');
+
+    // 剩余空白的格子，加入随机数
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
+        if (grids[i][j] != 0) {
+          continue;
+        }
         grids[i][j] = random.nextInt(9) + 1;
       }
     }
@@ -91,6 +112,47 @@ class GridData {
       return true;
     }
     return false;
+  }
+
+  // 检查给出的格子是否是可用的
+  bool checkPointAvailable((int dx, int dy) point) {
+    if (point.$1 < 0 || point.$2 < 0 || point.$1 >= col || point.$2 >= row) {
+      return false;
+    }
+    if (grids[point.$2][point.$1] != 0) {
+      return false;
+    }
+    return true;
+  }
+
+  // 寻找2个空白的格子
+  (int, int, int, int) findPoint(Random random) {
+    var error = (-1, -1, -1, -1);
+    // 随机一个点，并检查是否可用
+    int dx = random.nextInt(col);
+    int dy = random.nextInt(row);
+    if (!checkPointAvailable((dx, dy))) {
+      return error;
+    }
+    // 向周围4个方向取点，随机一个方向
+    int direction = random.nextInt(4) + 1;
+    // 取左边
+    if (direction == 1 && checkPointAvailable((dx - 1, dy))) {
+      return (dx, dy, dx - 1, dy);
+    }
+    // 取右边
+    if (direction == 1 && checkPointAvailable((dx + 1, dy))) {
+      return (dx, dy, dx + 1, dy);
+    }
+    // 取上边
+    if (direction == 1 && checkPointAvailable((dx, dy - 1))) {
+      return (dx, dy, dx, dy - 1);
+    }
+    // 取下边
+    if (direction == 1 && checkPointAvailable((dx, dy + 1))) {
+      return (dx, dy, dx, dy + 1);
+    }
+    return error;
   }
 
   // 记分规则
