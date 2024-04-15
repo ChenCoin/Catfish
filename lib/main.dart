@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff8A9CA0)),
+        primaryColor: const Color(0xff8A9CA0),
         useMaterial3: true,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page', data: data),
@@ -100,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     double height = width / 10 * 16;
     var scoreText = AppLocalizations.of(context)!.score;
     var highestScoreText = AppLocalizations.of(context)!.highestScore;
+    var tipText = AppLocalizations.of(context)!.tip;
     return Scaffold(
       backgroundColor: const Color(0xff8A9CA0),
       body: Align(
@@ -217,6 +219,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ]
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(tipText),
             ),
           ],
         ),

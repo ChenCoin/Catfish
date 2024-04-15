@@ -6,5 +6,6 @@
     "score": "分数",
     "highestScore": "最高分",
     "remainingTime": "剩余时间",
-    "scoreNow": "本局分数"
+    "scoreNow": "本局分数",
+    "tip": "圈出加起来等于10的数字"
 }

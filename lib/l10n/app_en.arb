@@ -9,5 +9,6 @@
   "score": "SCORE",
   "highestScore": "Highest Score",
   "remainingTime": "Remaining Time",
-  "scoreNow": "Score of the game"
+  "scoreNow": "Score of the game",
+  "tip": "Circle the numbers that add up to 10."
 }
