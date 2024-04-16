@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/grid_data.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      onGenerateTitle: (ctx) => AppLocalizations.of(ctx)!.title,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xff8A9CA0),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page', data: data),
+      home: MyHomePage(data: data),
     );
   }
 }
@@ -44,9 +43,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final GridData data;
 
-  final String title;
-
-  const MyHomePage({super.key, required this.title, required this.data});
+  const MyHomePage({super.key, required this.data});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
