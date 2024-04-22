@@ -89,14 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final String gameStart = AppLocalizations.of(context)!.startGame;
-    final String gameRestart = AppLocalizations.of(context)!.restartGame;
-    final String gameEnd = AppLocalizations.of(context)!.endGame;
     final screenSize = MediaQuery.of(context).size;
+    final screenTop = MediaQuery.of(context).padding.top;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
     final double width = min(screenSize.width - 32, 400);
     double height = width / 10 * 16;
-    var scoreText = AppLocalizations.of(context)!.score;
     var highestScoreText = AppLocalizations.of(context)!.highestScore;
     var tipText = AppLocalizations.of(context)!.tip;
     return Scaffold(
@@ -105,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.topCenter,
         child: Column(
           children: <Widget>[
-            const Padding(padding: EdgeInsets.all(8)),
+            Padding(padding: EdgeInsets.only(top: 8 + screenTop)),
             SizedBox(
               width: width,
               height: 48,
@@ -115,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '$scoreText: ${widget.data.score}',
+                        _scoreLabel(context),
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
@@ -136,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           TextButton(
                             onPressed: () => _onBtnTap(),
-                            child: Text(gameEnd),
+                            child: Text(AppLocalizations.of(context)!.endGame),
                           ),
                         ],
                       ),
@@ -196,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 minimumSize: MaterialStateProperty.all(
                                     const Size(200, 54))),
                             child: Text(
-                              gameState == 0 ? gameStart : gameRestart,
+                              _btnLabel(context),
                               style: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.white70,
@@ -225,5 +222,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  String _btnLabel(BuildContext context) {
+    final String gameStart = AppLocalizations.of(context)!.startGame;
+    final String gameRestart = AppLocalizations.of(context)!.restartGame;
+    return gameState == 0 ? gameStart : gameRestart;
+  }
+
+  String _scoreLabel(BuildContext context) {
+    var scoreText = AppLocalizations.of(context)!.score;
+    return '$scoreText: ${widget.data.score}';
   }
 }

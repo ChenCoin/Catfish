@@ -7,6 +7,8 @@ class GridData {
 
   static const int row = 16;
 
+  static const String highestScoreKey = 'catfish.highestScore';
+
   List<List<int>> grids = [];
 
   int score = 0;
@@ -25,7 +27,7 @@ class GridData {
 
   void init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    highestScore = prefs.getInt('highestScore') ?? 0;
+    highestScore = prefs.getInt(highestScoreKey) ?? 0;
   }
 
   void start() {
@@ -64,7 +66,7 @@ class GridData {
     if (score > highestScore) {
       highestScore = score;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setInt('highestScore', highestScore);
+      prefs.setInt(highestScoreKey, highestScore);
     }
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
