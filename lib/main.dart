@@ -90,10 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenTop = MediaQuery.of(context).padding.top;
+    MediaQueryData media = MediaQuery.of(context);
+    final screenTop = media.padding.top;
+    final screenBottom = media.padding.bottom;
+    // 最大面板高度
+    final boxHeight =
+        media.size.height - screenTop - 8 - 48 - 42 - 12 - screenBottom;
+    final widthOfH = (boxHeight - 20 - 32) / 16 * 10;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
-    final double width = min(screenSize.width - 32, 400);
+    final double width = min(media.size.width - 32, widthOfH);
     double height = width / 10 * 16;
     var highestScoreText = AppLocalizations.of(context)!.highestScore;
     var tipText = AppLocalizations.of(context)!.tip;

@@ -19,14 +19,15 @@ class _NumBoardState extends State<NumBoard> {
     var size = widget.size;
     return CustomPaint(
       size: size,
-      painter: MyPainter(width: size.width, data: widget.data),
+      painter: MyPainter(size.width, widget.data),
     );
   }
 }
 
 // 绘制数字
 void drawPieces(Canvas canvas, double grid, GridData data) {
-  int p = 7;
+  int p = (grid / 6).floor();
+  double fontSize = grid - p * 2 - 5;
   var gridPaint = Paint()
     ..isAntiAlias = true
     ..style = PaintingStyle.fill
@@ -34,9 +35,9 @@ void drawPieces(Canvas canvas, double grid, GridData data) {
   var paint = TextPainter()
     ..textAlign = TextAlign.center
     ..textDirection = TextDirection.ltr;
-  const style = TextStyle(
+  var style = TextStyle(
     color: Colors.black,
-    fontSize: 20,
+    fontSize: fontSize,
     fontWeight: FontWeight.bold,
   );
   for (int i = 0; i < GridData.row; i++) {
@@ -57,7 +58,9 @@ void drawPieces(Canvas canvas, double grid, GridData data) {
       // 画数字
       paint.text = TextSpan(text: content.toString(), style: style);
       paint.layout(minWidth: grid);
-      paint.paint(canvas, Offset(grid * j, grid * i + 6));
+      // -2是将文字上移一点
+      var dy = grid * i + (grid - fontSize) / 2 - 2;
+      paint.paint(canvas, Offset(grid * j, dy));
     }
   }
 }
@@ -71,7 +74,7 @@ class MyPainter extends CustomPainter {
 
   double gridHeight = 0;
 
-  MyPainter({required this.width, required this.data}) {
+  MyPainter(this.width, this.data) {
     grid = width / (GridData.col);
     gridHeight = grid * (GridData.row);
   }

@@ -51,6 +51,9 @@ class _DrawBoard extends State<GameBoard> {
     int right = rect.right.floor();
     int bottom = rect.bottom.floor();
     var pointList = widget.data.onGridDrag(left, top, right, bottom);
+    for (var value in pointList) {
+      debugPrint("point $value");
+    }
     if (pointList.isNotEmpty) {
       setState(() {});
       widget.callback();
