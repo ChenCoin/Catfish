@@ -32,10 +32,6 @@ class _BlackBoard extends CustomPainter {
     canvas.drawRRect(
         RRect.fromRectAndRadius(innerBox, const Radius.circular(8)), paint);
 
-    // 画棋盘线
-    drawBackground(
-        canvas, rectMap(rect, 10), (rect.width - 20) / (GridData.col));
-
     // 画黄褐色的最外圈边框
     paint.style = PaintingStyle.stroke;
     paint.color = const Color(0xFF4E3111);

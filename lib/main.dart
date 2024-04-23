@@ -7,17 +7,14 @@ import 'data/grid_data.dart';
 import 'view/black_board.dart';
 import 'view/count_down.dart';
 import 'view/game_board.dart';
+import 'view/line_board.dart';
 
 void main() {
-  final data = GridData();
-  data.init();
-  runApp(MyApp(data: data));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final GridData data;
-
-  const MyApp({super.key, required this.data});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,33 +32,31 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xff8A9CA0),
         useMaterial3: true,
       ),
-      home: MyHomePage(data: data),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  final GridData data;
-
-  const MyHomePage({super.key, required this.data});
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GridData data = GridData();
+
   // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束
   int gameState = 0;
 
   void _gameStart() {
-    setState(() {
-      widget.data.start();
-    });
+    setState(() => data.start());
   }
 
   void _gameOver() {
     setState(() {
-      widget.data.end();
+      data.end();
     });
   }
 
@@ -85,6 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onScoreChanged() {
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    data.init();
   }
 
   @override
@@ -146,14 +147,22 @@ class _MyHomePageState extends State<MyHomePage> {
               alignment: Alignment.center,
               children: [
                 RepaintBoundary(
-                    child: BlackBoard(size: Size(width + 20, height + 20))),
+                  child: Stack(
+                    children: [
+                      BlackBoard(size: Size(width + 20, height + 20)),
+                      if (gameState == 1) ...[
+                        LineBoard(size: Size(width + 20, height + 20)),
+                      ],
+                    ],
+                  ),
+                ),
                 SizedBox(
                   width: width,
                   height: height,
                   child: GameBoard(
                     size: Size(width, height),
                     callback: _onScoreChanged,
-                    data: widget.data,
+                    data: data,
                   ),
                 ),
                 if (gameState != 1) ...[
@@ -182,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                             Text(
-                              '${widget.data.score}',
+                              '${data.score}',
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
                           ],
@@ -203,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              '$highestScoreText: ${widget.data.highestScore}',
+                              '$highestScoreText: ${data.highestScore}',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -232,6 +241,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String _scoreLabel(BuildContext context) {
     var scoreText = AppLocalizations.of(context)!.score;
-    return '$scoreText: ${widget.data.score}';
+    return '$scoreText: ${data.score}';
   }
 }

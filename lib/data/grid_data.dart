@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GridData {
@@ -49,7 +50,7 @@ class GridData {
         break;
       }
     }
-    print('number add: ${30 - max}');
+    debugPrint('number add: ${30 - max}');
 
     // 剩余空白的格子，加入随机数
     for (int i = 0; i < row; i++) {
@@ -75,7 +76,7 @@ class GridData {
     }
   }
 
-  bool onGridDrag(int startX, int startY, int endX, int endY) {
+  List<(int, int, int)> onGridDrag(int startX, int startY, int endX, int endY) {
     int count = 0;
     int existNum = 0;
     if (startX > endX) {
@@ -103,17 +104,22 @@ class GridData {
       }
     }
 
-    print('ret $count $existNum');
+    debugPrint('ret $count $existNum');
     if (count == 10) {
+      var result = <(int, int, int)>[];
       for (int i = startY; i <= endY; i++) {
         for (int j = startX; j <= endX; j++) {
+          if (grids[i][j] == 0) {
+            continue;
+          }
+          result.add((j, i, grids[i][j]));
           grids[i][j] = 0;
         }
       }
       scoring(existNum);
-      return true;
+      return result;
     }
-    return false;
+    return List.empty();
   }
 
   // 检查给出的格子是否是可用的
@@ -164,7 +170,7 @@ class GridData {
 
   void printGrids() {
     for (int i = 0; i < row; i++) {
-      print(grids[i]);
+      debugPrint(grids[i].toString());
     }
   }
 }

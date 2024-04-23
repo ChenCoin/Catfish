@@ -50,8 +50,8 @@ class _DrawBoard extends State<GameBoard> {
     int top = rect.top.floor();
     int right = rect.right.floor();
     int bottom = rect.bottom.floor();
-    bool change = widget.data.onGridDrag(left, top, right, bottom);
-    if (change) {
+    var pointList = widget.data.onGridDrag(left, top, right, bottom);
+    if (pointList.isNotEmpty) {
       setState(() {});
       widget.callback();
     }
