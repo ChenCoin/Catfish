@@ -26,9 +26,10 @@ class GridData {
     }
   }
 
-  void init() async {
+  void init(void Function() callback) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     highestScore = prefs.getInt(highestScoreKey) ?? 0;
+    callback();
   }
 
   void start() {
