@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/grid_data.dart';
+import 'effect_board.dart';
 import 'gesture_box.dart';
 import 'num_board.dart';
 
@@ -38,6 +39,12 @@ class _DrawBoard extends State<GameBoard> {
         RepaintBoundary(
           child: SizedBox.fromSize(
             size: size,
+            child: EffectBoard(size: size),
+          ),
+        ),
+        RepaintBoundary(
+          child: SizedBox.fromSize(
+            size: size,
             child: GestureBox(size: size, callback: (rect) => onGesture(rect)),
           ),
         )
@@ -55,7 +62,6 @@ class _DrawBoard extends State<GameBoard> {
       debugPrint("point $value");
     }
     if (pointList.isNotEmpty) {
-      setState(() {});
       widget.callback();
     }
   }

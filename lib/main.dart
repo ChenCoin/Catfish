@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -95,12 +96,11 @@ class _MyHomePageState extends State<MyHomePage> {
     final screenBottom = media.padding.bottom;
     // 最大面板高度
     final boxHeight =
-        media.size.height - screenTop - 8 - 48 - 42 - 12 - screenBottom;
-    final widthOfH = (boxHeight - 20 - 32) / 16 * 10;
+        media.size.height - screenTop - 8 - 48 - 48 - 8 - screenBottom;
+    final widthOfH = (boxHeight - 20) / 16 * 10;
     // 宽度为屏幕宽度 - 40，特殊适配大屏
     final double width = min(media.size.width - 32, widthOfH);
     double height = width / 10 * 16;
-    var highestScoreText = AppLocalizations.of(context)!.highestScore;
     var tipText = AppLocalizations.of(context)!.tip;
     return Scaffold(
       backgroundColor: const Color(0xff8A9CA0),
@@ -112,40 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: width,
               height: 48,
-              child: Stack(
-                children: [
-                  if (gameState == 1) ...[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        _scoreLabel(context),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TimerText(
-                              secondCount: 120,
-                              onTickEnd: () {
-                                gameState = 2;
-                                _gameOver();
-                              },
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => _onBtnTap(),
-                            child: Text(AppLocalizations.of(context)!.endGame),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
+              child: Visibility(
+                visible: gameState == 1,
+                child: titlePanel(context, width),
               ),
             ),
             Stack(
@@ -155,82 +124,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Stack(
                     children: [
                       BlackBoard(size: Size(width + 20, height + 20)),
-                      if (gameState == 1) ...[
+                      if (gameState == 1)
                         LineBoard(size: Size(width + 20, height + 20)),
-                      ],
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: width,
-                  height: height,
-                  child: GameBoard(
-                    size: Size(width, height),
-                    callback: _onScoreChanged,
-                    data: data,
-                  ),
-                ),
-                if (gameState != 1) ...[
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                        color: const Color(0x80FFFFFF),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black54,
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 16.0),
-                        ]),
-                    child: SizedBox(
-                      width: 300,
-                      height: 400,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (gameState == 2) ...[
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                '本局分数',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                            Text(
-                              '${data.score}',
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                          ],
-                          const Padding(padding: EdgeInsets.all(24)),
-                          TextButton(
-                            onPressed: () => _onBtnTap(),
-                            style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(200, 54))),
-                            child: Text(
-                              _btnLabel(context),
-                              style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.white70,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Text(
-                              '$highestScoreText: ${data.highestScore}',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ],
-                      ),
+                if (gameState == 1)
+                  SizedBox(
+                    width: width,
+                    height: height,
+                    child: GameBoard(
+                      size: Size(width, height),
+                      callback: _onScoreChanged,
+                      data: data,
                     ),
-                  )
-                ]
+                  ),
+                if (gameState != 1) menuPanel(context),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text(tipText),
+            SizedBox(
+              height: 48,
+              child: Padding(
+                padding: const EdgeInsets.only(top:12),
+                child: Text(tipText),
+              ),
             ),
           ],
         ),
@@ -247,5 +164,87 @@ class _MyHomePageState extends State<MyHomePage> {
   String _scoreLabel(BuildContext context) {
     var scoreText = AppLocalizations.of(context)!.score;
     return '$scoreText: ${data.score}';
+  }
+
+  Widget titlePanel(BuildContext context, double width) {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            _scoreLabel(context),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: TimerText(
+                  secondCount: 120,
+                  onTickEnd: () {
+                    gameState = 2;
+                    _gameOver();
+                  },
+                ),
+              ),
+              TextButton(
+                onPressed: () => _onBtnTap(),
+                child: Text(AppLocalizations.of(context)!.endGame),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget menuPanel(BuildContext context) {
+    var highestScoreText = AppLocalizations.of(context)!.highestScore;
+    var scoreNow = AppLocalizations.of(context)!.scoreNow;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (gameState == 2) ...[
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              scoreNow,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          Text(
+            '${data.score}',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+        ],
+        const Padding(padding: EdgeInsets.all(24)),
+        TextButton(
+          onPressed: () => _onBtnTap(),
+          style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Text(
+              _btnLabel(context),
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.white70,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            '$highestScoreText: ${data.highestScore}',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ],
+    );
   }
 }

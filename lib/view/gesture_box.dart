@@ -63,11 +63,8 @@ class _CanvasPaint extends CustomPainter {
     thePaint.color = Colors.white60;
     thePaint.style = PaintingStyle.stroke;
     canvas.drawRect(rect, thePaint);
-
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
