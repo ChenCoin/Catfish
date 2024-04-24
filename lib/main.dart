@@ -143,10 +143,24 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             SizedBox(
+              width: width,
               height: 48,
               child: Padding(
-                padding: const EdgeInsets.only(top:12),
-                child: Text(tipText),
+                padding: const EdgeInsets.only(top: 12),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Text(tipText),
+                    if (data.magicNumber != '')
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          data.magicNumber,
+                          style: const TextStyle(color: Color(0xff809090)),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ],

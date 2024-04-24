@@ -16,6 +16,8 @@ class GridData {
 
   int highestScore = 0;
 
+  String magicNumber = '';
+
   GridData() {
     for (int i = 0; i < row; i++) {
       List<int> list = [];
@@ -35,9 +37,9 @@ class GridData {
   void start() {
     score = 0;
     var random = Random();
-    // 加入最多32个成对的数字组合，因为可能选到不可放置的格子，尝试次数总共100次
-    int max = 32;
-    for (int i = 0; i < 100; i++) {
+    // 加入成对的数字组合，因为可能选到不可放置的格子，尝试次数总共48次
+    int pair = 0;
+    for (int i = 0; i < 48; i++) {
       int number = random.nextInt(9) + 1;
       int numberNext = 10 - number;
       (int, int, int, int) thePoint = findPoint(random);
@@ -46,12 +48,12 @@ class GridData {
       }
       grids[thePoint.$2][thePoint.$1] = number;
       grids[thePoint.$4][thePoint.$3] = numberNext;
-      max--;
-      if (max <= 0) {
-        break;
-      }
+      pair++;
     }
-    debugPrint('number add: ${30 - max}');
+    var magicNumStart = random.nextInt(10);
+    var magicNumEnd = random.nextInt(10);
+    magicNumber =
+        '$magicNumStart${pair.toString().padLeft(2, '0')}$magicNumEnd';
 
     // 剩余空白的格子，加入随机数
     for (int i = 0; i < row; i++) {
@@ -70,6 +72,7 @@ class GridData {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt(highestScoreKey, highestScore);
     }
+    magicNumber = '';
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
         grids[i][j] = 0;
