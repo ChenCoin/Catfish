@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,8 +7,10 @@ import 'view/black_board.dart';
 import 'view/count_down.dart';
 import 'view/game_board.dart';
 import 'view/line_board.dart';
+import 'web/conf_nil.dart' if (dart.library.html) 'web/conf_web.dart';
 
 void main() {
+  webConfigure();
   runApp(const MyApp());
 }
 
