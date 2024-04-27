@@ -108,7 +108,6 @@ class GridData {
       }
     }
 
-    debugPrint('ret $count $existNum');
     if (count == 10) {
       var result = <(int, int, int)>[];
       for (int i = startY; i <= endY; i++) {

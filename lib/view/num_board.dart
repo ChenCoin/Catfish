@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/grid_data.dart';
+import 'num_drawer.dart';
 
 class NumBoard extends StatefulWidget {
   final Size size;
@@ -24,64 +25,30 @@ class _NumBoardState extends State<NumBoard> {
   }
 }
 
-// 绘制数字
-void drawPieces(Canvas canvas, double grid, GridData data) {
-  int p = (grid / 6).floor();
-  double fontSize = grid - p * 2 - 5;
-  var gridPaint = Paint()
-    ..isAntiAlias = true
-    ..style = PaintingStyle.fill
-    ..color = Colors.white;
-  var paint = TextPainter()
-    ..textAlign = TextAlign.center
-    ..textDirection = TextDirection.ltr;
-  var style = TextStyle(
-    color: Colors.black,
-    fontSize: fontSize,
-    fontWeight: FontWeight.bold,
-  );
-  for (int i = 0; i < GridData.row; i++) {
-    var list = data.grids[i];
-    for (int j = 0; j < GridData.col; j++) {
-      var content = list[j];
-      if (content == 0) {
-        continue;
-      }
-      // 画小白块
-      var left = grid * j + p;
-      var top = grid * i + p;
-      var right = left + grid - p * 2;
-      var bottom = top + grid - p * 2;
-      var rect = Rect.fromLTRB(left, top, right, bottom);
-      RRect whiteGrid = RRect.fromRectAndRadius(rect, const Radius.circular(2));
-      canvas.drawRRect(whiteGrid, gridPaint);
-      // 画数字
-      paint.text = TextSpan(text: content.toString(), style: style);
-      paint.layout(minWidth: grid);
-      // -2是将文字上移一点
-      var dy = grid * i + (grid - fontSize) / 2 - 2;
-      paint.paint(canvas, Offset(grid * j, dy));
-    }
-  }
-}
-
 class MyPainter extends CustomPainter {
   final double width;
 
   final GridData data;
 
-  double grid = 0;
-
-  double gridHeight = 0;
+  late NumberDrawer drawer;
 
   MyPainter(this.width, this.data) {
-    grid = width / (GridData.col);
-    gridHeight = grid * (GridData.row);
+    double grid = width / (GridData.col);
+    drawer = NumberDrawer(grid);
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    drawPieces(canvas, grid, data);
+    for (int i = 0; i < GridData.row; i++) {
+      var list = data.grids[i];
+      for (int j = 0; j < GridData.col; j++) {
+        var content = list[j];
+        if (content == 0) {
+          continue;
+        }
+        drawer.drawNumber(canvas, i, j, content);
+      }
+    }
   }
 
   @override
