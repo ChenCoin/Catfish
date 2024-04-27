@@ -44,11 +44,11 @@ class _EffectBoardState extends State<EffectBoard>
   }
 
   void addEffect(List<EffectPoint> item) {
-    Duration duration = const Duration(seconds: 1);
+    Duration duration = const Duration(milliseconds: 800);
     var controller = AnimationController(duration: duration, vsync: this);
     // animation用于获取数值
     var curve = CurvedAnimation(parent: controller, curve: Curves.easeOutQuad);
-    Animation<double> anim = Tween(begin: 0.0, end: 200.0).animate(curve)
+    Animation<double> anim = Tween(begin: 0.0, end: 250.0).animate(curve)
       ..addListener(() => setState(() {}));
     var effectGrids = EffectGrids(item, anim);
     controller.addStatusListener((status) {
