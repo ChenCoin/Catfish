@@ -48,7 +48,7 @@ class _EffectBoardState extends State<EffectBoard>
     var controller = AnimationController(duration: duration, vsync: this);
     // animation用于获取数值
     var curve = CurvedAnimation(parent: controller, curve: Curves.easeOutQuad);
-    Animation<double> anim = Tween(begin: 0.0, end: 150.0).animate(curve)
+    Animation<double> anim = Tween(begin: 0.0, end: 200.0).animate(curve)
       ..addListener(() => setState(() {}));
     var effectGrids = EffectGrids(item, anim);
     controller.addStatusListener((status) {
