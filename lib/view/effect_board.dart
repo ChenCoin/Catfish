@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../data/draw_data.dart';
+
 class EffectBoard extends StatefulWidget {
   final Size size;
 
-  const EffectBoard({super.key, required this.size});
+  final DrawData drawData;
+
+  const EffectBoard({super.key, required this.size, required this.drawData});
 
   @override
   State<StatefulWidget> createState() => _EffectBoardState();
@@ -12,11 +16,23 @@ class EffectBoard extends StatefulWidget {
 class _EffectBoardState extends State<EffectBoard>
     with TickerProviderStateMixin {
   @override
+  void initState() {
+    super.initState();
+    widget.drawData.initBoard();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomPaint(
       size: widget.size,
-      painter: _EffectBoardPaint(),
+      painter: _EffectBoardPaint(widget.drawData.allItem),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.drawData.dispose();
   }
 
   void addEffect() {
@@ -31,8 +47,16 @@ class _EffectBoardState extends State<EffectBoard>
 }
 
 class _EffectBoardPaint extends CustomPainter {
+  List<List<(int, int, int)>> _allItem;
+
+  _EffectBoardPaint(this._allItem);
+
   @override
-  void paint(Canvas canvas, Size size) {}
+  void paint(Canvas canvas, Size size) {
+    // 格子对的list
+    // 2个(或者更多)格子的位置及数字
+    // 或者1个格子
+  }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
