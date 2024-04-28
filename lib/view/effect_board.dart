@@ -54,7 +54,6 @@ class _EffectBoardState extends State<EffectBoard>
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         allController.remove(controller);
-        controller.dispose();
         widget.drawData.remove(effectGrids);
       }
     });
