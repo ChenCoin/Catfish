@@ -48,11 +48,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GridData data = GridData();
 
-  // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束
-  int gameState = 0;
-
   void _gameStart() {
-    setState(() => data.start());
+    data.start(setState);
   }
 
   void _gameOver() {
@@ -62,18 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onBtnTap() {
-    if (gameState == 0) {
-      gameState = 1;
+    if (data.gameState == 0) {
       _gameStart();
       return;
     }
-    if (gameState == 1) {
-      gameState = 2;
+    if (data.gameState == 1) {
+      data.gameState = 2;
       _gameOver();
       return;
     }
-    if (gameState == 2) {
-      gameState = 1;
+    if (data.gameState == 2) {
       _gameStart();
       return;
     }
@@ -113,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: width,
               height: 48,
               child: Visibility(
-                visible: gameState == 1,
+                visible: data.gameState == 1,
                 child: titlePanel(context, width),
               ),
             ),
@@ -124,12 +119,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Stack(
                     children: [
                       BlackBoard(size: Size(width + 20, height + 20)),
-                      if (gameState == 1)
+                      if (data.isGameRunning())
                         LineBoard(size: Size(width + 20, height + 20)),
                     ],
                   ),
                 ),
-                if (gameState == 1)
+                if (data.isGameRunning())
                   SizedBox(
                     width: width,
                     height: height,
@@ -139,7 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       data: data,
                     ),
                   ),
-                if (gameState != 1) menuPanel(context),
+                if (data.gameState == 0 || data.gameState == 2)
+                  menuPanel(context),
               ],
             ),
             SizedBox(
@@ -172,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _btnLabel(BuildContext context) {
     final String gameStart = AppLocalizations.of(context)!.startGame;
     final String gameRestart = AppLocalizations.of(context)!.restartGame;
-    return gameState == 0 ? gameStart : gameRestart;
+    return data.gameState == 0 ? gameStart : gameRestart;
   }
 
   String _scoreLabel(BuildContext context) {
@@ -200,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TimerText(
                   secondCount: 120,
                   onTickEnd: () {
-                    gameState = 2;
+                    data.gameState = 2;
                     _gameOver();
                   },
                 ),
@@ -222,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (gameState == 2) ...[
+        if (data.gameState == 2) ...[
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(

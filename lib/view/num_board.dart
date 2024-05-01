@@ -21,19 +21,19 @@ class _NumBoardState extends State<NumBoard> {
     var size = widget.size;
     return CustomPaint(
       size: size,
-      painter: MyPainter(size.width, widget.data),
+      painter: _MyPainter(size.width, widget.data),
     );
   }
 }
 
-class MyPainter extends CustomPainter {
+class _MyPainter extends CustomPainter {
   final double width;
 
   final GridData data;
 
   late NumberDrawer drawer;
 
-  MyPainter(this.width, this.data) {
+  _MyPainter(this.width, this.data) {
     double grid = width / (UX.col);
     drawer = NumberDrawer(grid);
   }
@@ -47,7 +47,7 @@ class MyPainter extends CustomPainter {
         if (content == 0) {
           continue;
         }
-        drawer.drawNumber(canvas, i, j, content);
+        drawer.drawDirect(canvas, j.toDouble(), i.toDouble(), content);
       }
     }
   }

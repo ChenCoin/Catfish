@@ -1,3 +1,4 @@
+import 'package:catfish/view/scene_board.dart';
 import 'package:flutter/material.dart';
 import '../data/draw_data.dart';
 import '../data/grid_data.dart';
@@ -33,10 +34,22 @@ class _DrawBoard extends State<GameBoard> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        RepaintBoundary(
-          child: NumBoard(
-            size: size,
-            data: widget.data,
+        Offstage(
+          offstage: widget.data.gameState != 1,
+          child: RepaintBoundary(
+            child: NumBoard(
+              size: size,
+              data: widget.data,
+            ),
+          ),
+        ),
+        Offstage(
+          offstage: widget.data.gameState != 3,
+          child: RepaintBoundary(
+            child: SceneBoard(
+              size: size,
+              data: widget.data,
+            ),
           ),
         ),
         RepaintBoundary(

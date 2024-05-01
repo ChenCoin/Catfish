@@ -16,6 +16,9 @@ class GridData {
 
   String magicNumber = '';
 
+  // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束，3为进入游戏的加载动画，4为游戏结束动画
+  int gameState = 0;
+
   GridData() {
     for (int i = 0; i < UX.row; i++) {
       List<int> list = [];
@@ -32,7 +35,7 @@ class GridData {
     callback();
   }
 
-  void start() {
+  void start(void Function(VoidCallback) callback) {
     score = 0;
     var random = Random();
     // 加入成对的数字组合，因为可能选到不可放置的格子，尝试次数总共48次
@@ -62,6 +65,14 @@ class GridData {
         grids[i][j] = random.nextInt(9) + 1;
       }
     }
+    callback(() {
+      gameState = 3;
+    });
+    Future.delayed(const Duration(milliseconds: UX.enterSceneDuration), () {
+      callback(() {
+        gameState = 1;
+      });
+    });
   }
 
   void end() async {
@@ -76,6 +87,10 @@ class GridData {
         grids[i][j] = 0;
       }
     }
+  }
+
+  bool isGameRunning() {
+    return gameState == 1 || gameState == 3;
   }
 
   List<(int, int, int)> onGridDrag(int startX, int startY, int endX, int endY) {
