@@ -14,6 +14,9 @@ class UX {
   // 动画持续时间
   static const enterSceneDuration = 1200;
 
+  // 动画持续时间
+  static const exitSceneDuration = 1200;
+
   // mac环境
   static const debugMode = false;
 }

@@ -53,9 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _gameOver() {
-    setState(() {
-      data.end();
-    });
+    data.end(setState);
   }
 
   void _onBtnTap() {
@@ -64,7 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
     if (data.gameState == 1) {
-      data.gameState = 2;
       _gameOver();
       return;
     }
@@ -198,7 +195,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TimerText(
                   secondCount: 120,
                   onTickEnd: () {
-                    data.gameState = 2;
                     _gameOver();
                   },
                 ),

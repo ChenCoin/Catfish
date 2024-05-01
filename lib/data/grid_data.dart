@@ -14,9 +14,11 @@ class GridData {
 
   int highestScore = 0;
 
+  // 降低难度的数值
   String magicNumber = '';
 
-  // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束，3为进入游戏的加载动画，4为游戏结束动画
+  // 游戏状态，0为初次进入游戏，1为游戏进行中，2为游戏结束，3为进入游戏的加载动画，
+  // 4为游戏结束动画
   int gameState = 0;
 
   GridData() {
@@ -75,22 +77,35 @@ class GridData {
     });
   }
 
-  void end() async {
+  void end(void Function(VoidCallback) callback) async {
     if (score > highestScore) {
       highestScore = score;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt(highestScoreKey, highestScore);
     }
     magicNumber = '';
-    for (int i = 0; i < UX.row; i++) {
-      for (int j = 0; j < UX.col; j++) {
-        grids[i][j] = 0;
+
+    callback(() {
+      gameState = 4;
+    });
+    Future.delayed(const Duration(milliseconds: UX.exitSceneDuration), () {
+      for (int i = 0; i < UX.row; i++) {
+        for (int j = 0; j < UX.col; j++) {
+          grids[i][j] = 0;
+        }
       }
-    }
+      callback(() {
+        gameState = 2;
+      });
+    });
   }
 
   bool isGameRunning() {
-    return gameState == 1 || gameState == 3;
+    return gameState == 1 || gameState == 3 || gameState == 4;
+  }
+
+  bool isGameStateLoading() {
+    return gameState == 3 || gameState == 4;
   }
 
   List<(int, int, int)> onGridDrag(int startX, int startY, int endX, int endY) {

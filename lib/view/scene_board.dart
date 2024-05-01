@@ -26,7 +26,8 @@ class _SceneBoardState extends State<SceneBoard> with TickerProviderStateMixin {
     Duration duration = const Duration(milliseconds: UX.enterSceneDuration);
     controller = AnimationController(duration: duration, vsync: this);
     // animation用于获取数值
-    var curve = CurvedAnimation(parent: controller, curve: Curves.linearToEaseOut);
+    var curve =
+        CurvedAnimation(parent: controller, curve: Curves.linearToEaseOut);
     anim = Tween(begin: 100.0, end: 0.0).animate(curve)
       ..addListener(() {
         setState(() {});
@@ -68,18 +69,20 @@ class _MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (int i = 0; i < UX.row; i++) {
-      var list = data.grids[i];
-      for (int j = 0; j < UX.col; j++) {
-        var content = list[j];
-        if (content == 0) {
-          continue;
+    if (data.gameState == 3) {
+      for (int i = 0; i < UX.row; i++) {
+        var list = data.grids[i];
+        for (int j = 0; j < UX.col; j++) {
+          var content = list[j];
+          if (content == 0) {
+            continue;
+          }
+          double dy = i.toDouble() - (1 + content * 0.3) * anim.value / 100;
+          drawer.drawDirect(canvas, j.toDouble(), dy, content);
         }
-        double dy = i.toDouble() - (1 + content * 0.3) * anim.value / 100;
-        drawer.drawDirect(canvas, j.toDouble(), dy, content);
       }
+      debugPrint('anim $grid ${grid * 2 * anim.value / 100}');
     }
-    debugPrint('anim $grid ${grid * 2 * anim.value / 100}');
   }
 
   @override

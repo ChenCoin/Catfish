@@ -44,7 +44,7 @@ class _DrawBoard extends State<GameBoard> {
           ),
         ),
         Offstage(
-          offstage: widget.data.gameState != 3,
+          offstage: !widget.data.isGameStateLoading(),
           child: RepaintBoundary(
             child: SceneBoard(
               size: size,
