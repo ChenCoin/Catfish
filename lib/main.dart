@@ -74,6 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _onBackHomeBtnTap() {
+    if (data.gameState == 2) {
+      setState(() {
+        data.gameState = 0;
+      });
+    }
+  }
+
   void _onScoreChanged() {
     setState(() {});
   }
@@ -134,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       data: data,
                     ),
                   ),
-                if (data.gameState == 0 || data.gameState == 2)
-                  menuPanel(context),
+                if (data.gameState == 0) mainPanel(context),
+                if (data.gameState == 2) menuPanel(context),
               ],
             ),
             SizedBox(
@@ -163,12 +171,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  String _btnLabel(BuildContext context) {
-    final String gameStart = AppLocalizations.of(context)!.startGame;
-    final String gameRestart = AppLocalizations.of(context)!.restartGame;
-    return data.gameState == 0 ? gameStart : gameRestart;
   }
 
   String _scoreLabel(BuildContext context) {
@@ -212,25 +214,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget menuPanel(BuildContext context) {
+  Widget mainPanel(BuildContext context) {
     var highestScoreText = AppLocalizations.of(context)!.highestScore;
-    var scoreNow = AppLocalizations.of(context)!.scoreNow;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (data.gameState == 2) ...[
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              scoreNow,
-              style: Theme.of(context).textTheme.bodyMedium,
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.title,
+              style: TextStyle(
+                  fontSize: 54,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 6
+                    ..color = Colors.white),
             ),
-          ),
-          Text(
-            '${data.score}',
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
-        ],
+            Text(
+              AppLocalizations.of(context)!.title,
+              style: const TextStyle(
+                  color: Colors.amber,
+                  fontSize: 54,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
         const Padding(padding: EdgeInsets.all(24)),
         TextButton(
           onPressed: () => _onBtnTap(),
@@ -239,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
-              _btnLabel(context),
+              AppLocalizations.of(context)!.startGame,
               style: const TextStyle(
                 fontSize: 24,
                 color: Colors.white70,
@@ -254,6 +264,80 @@ class _MyHomePageState extends State<MyHomePage> {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
+      ],
+    );
+  }
+
+  Widget menuPanel(BuildContext context) {
+    var highestScoreText = AppLocalizations.of(context)!.highestScore;
+    var scoreNow = AppLocalizations.of(context)!.scoreNow;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            scoreNow,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(
+              '${data.score}',
+              style: TextStyle(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w300,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 2
+                    ..color = Colors.white),
+            ),
+            Text(
+              '${data.score}',
+              style: const TextStyle(
+                  color: Colors.amber,
+                  fontSize: 64,
+                  fontWeight: FontWeight.w300),
+            ),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.all(24)),
+        TextButton(
+          onPressed: () => _onBackHomeBtnTap(),
+          style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Text(
+              AppLocalizations.of(context)!.backHome,
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.white70,
+              ),
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => _onBtnTap(),
+          style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Text(
+              AppLocalizations.of(context)!.restartGame,
+              style: const TextStyle(
+                color: Colors.white70,
+              ),
+            ),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.all(4)),
+        Text(
+          '$highestScoreText: ${data.highestScore}',
+          style: Theme.of(context).textTheme.bodyMedium,
+        )
       ],
     );
   }
