@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../UX.dart';
 import '../data/draw_data.dart';
 import '../data/grid_data.dart';
 import 'num_drawer.dart';
@@ -16,13 +17,14 @@ class EffectBoard extends StatefulWidget {
 }
 
 class _EffectBoardState extends State<EffectBoard>
-    with TickerProviderStateMixin {
-  var allController = <AnimationController>[];
+    with TickerProviderStateMixin
+    implements EffectCreator {
+  late _CachePair cachePair = _CachePair(() => _Cache(this, sync));
 
   @override
   void initState() {
     super.initState();
-    widget.drawData.initBoard(addEffect);
+    widget.drawData.initBoard(this);
   }
 
   @override
@@ -35,31 +37,42 @@ class _EffectBoardState extends State<EffectBoard>
 
   @override
   void dispose() {
-    for (var element in allController) {
-      element.dispose();
-    }
+    cachePair.dispose();
     super.dispose();
-    allController.clear();
     widget.drawData.dispose();
   }
 
-  void addEffect(List<EffectPoint> item) {
-    Duration duration = const Duration(milliseconds: 800);
-    var controller = AnimationController(duration: duration, vsync: this);
-    // animation用于获取数值
-    var curve = CurvedAnimation(parent: controller, curve: Curves.easeOutQuad);
-    Animation<double> anim = Tween(begin: 0.0, end: 250.0).animate(curve)
-      ..addListener(() => setState(() {}));
+  @override
+  bool isEffectEnable() {
+    return cachePair.isAnyEnable();
+  }
+
+  @override
+  void createEffect(List<EffectPoint> item) {
+    var cache = cachePair.getAnimationCache();
+    cache.using = true;
+    var animCache = cache.getAnimationCache();
+    var controller = animCache.$1;
+    var anim = animCache.$2;
+
     var effectGrids = EffectGrids(item, anim);
-    controller.addStatusListener((status) {
+    widget.drawData.add(effectGrids);
+
+    cache.addListener((status) {
       if (status == AnimationStatus.completed) {
-        allController.remove(controller);
+        cache.using = false;
+        cache.removeListener();
         widget.drawData.remove(effectGrids);
+        debugPrint('anim end');
       }
     });
-    widget.drawData.add(effectGrids);
-    allController.add(controller);
+    controller.addStatusListener(cache._cacheListener);
     controller.forward();
+    debugPrint('anim start');
+  }
+
+  void sync() {
+    setState(() {});
   }
 }
 
@@ -95,4 +108,79 @@ class _EffectBoardPaint extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+}
+
+class _Cache {
+  bool using = false;
+
+  TickerProviderStateMixin ticker;
+
+  VoidCallback callback;
+
+  (AnimationController, Animation<double>)? _cache;
+
+  AnimationStatusListener _cacheListener = (status) {};
+
+  _Cache(this.ticker, this.callback);
+
+  (AnimationController, Animation<double>) getAnimationCache() {
+    if (_cache == null) {
+      Duration duration = const Duration(milliseconds: UX.animationDuration);
+      var controller = AnimationController(duration: duration, vsync: ticker);
+      // animation用于获取数值
+      var curve =
+          CurvedAnimation(parent: controller, curve: Curves.easeOutQuad);
+      var anim = Tween(begin: 0.0, end: 250.0).animate(curve)
+        ..addListener(callback);
+      _cache = (controller, anim);
+    } else {
+      _cache!.$1.reset();
+    }
+    return _cache!;
+  }
+
+  void addListener(AnimationStatusListener listener) {
+    _cacheListener = listener;
+  }
+
+  void removeListener() {
+    getAnimationCache().$1.removeStatusListener(_cacheListener);
+  }
+}
+
+class _CachePair {
+  final List<_Cache> _list = <_Cache>[];
+
+  _CachePair(_Cache Function() create) {
+    for (int i = 0; i < UX.animationCacheSize; i++) {
+      _list.add(create());
+    }
+  }
+
+  bool isAnyEnable() {
+    for (var item in _list) {
+      if (!item.using) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // 调用这个接口前，先用isAnyEnable判断存在一个可用的anim，不考虑所有anim都使用中的场景
+  _Cache getAnimationCache() {
+    for (var item in _list) {
+      if (!item.using) {
+        return item;
+      }
+    }
+    // 这个返回值会导致异常
+    return _list[0];
+  }
+
+  void dispose() {
+    for (var item in _list) {
+      var cache = item.getAnimationCache();
+      cache.$1.dispose();
+    }
+  }
 }

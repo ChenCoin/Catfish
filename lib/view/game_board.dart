@@ -60,6 +60,7 @@ class _DrawBoard extends State<GameBoard> {
     int top = rect.top.floor();
     int right = rect.right.floor();
     int bottom = rect.bottom.floor();
+    // 动画数量大于限制时，会出现动画消失，但逻辑正常执行
     var pointList = widget.data.onGridDrag(left, top, right, bottom);
     if (pointList.isNotEmpty) {
       drawData.addEffectItem(pointList);

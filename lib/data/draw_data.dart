@@ -3,15 +3,13 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'grid_data.dart';
 
-typedef CreateFunc = void Function(List<EffectPoint> item);
-
 class DrawData {
-  CreateFunc createEffectGrids = (arg) {};
+  EffectCreator effectCreator = NilEffectCreator();
 
   List<EffectGrids> allItem = <EffectGrids>[];
 
-  void initBoard(CreateFunc createFn) {
-    createEffectGrids = createFn;
+  void initBoard(EffectCreator effectCreator) {
+    this.effectCreator = effectCreator;
   }
 
   bool isEffectActive() {
@@ -19,10 +17,13 @@ class DrawData {
   }
 
   void addEffectItem(List<(int, int, int)> newItem) {
+    if (!effectCreator.isEffectEnable()) {
+      return;
+    }
     var args = newItem
         .map((e) => EffectPoint(e.$1.toDouble(), e.$2.toDouble(), e.$3))
         .toList();
-    createEffectGrids(args);
+    effectCreator.createEffect(args);
   }
 
   void add(EffectGrids newItem) {
@@ -35,7 +36,7 @@ class DrawData {
 
   void dispose() {
     allItem.clear();
-    createEffectGrids = (arg) {};
+    effectCreator = NilEffectCreator();
   }
 }
 
@@ -75,4 +76,18 @@ class EffectPoint {
   int number;
 
   EffectPoint(this.x, this.y, this.number);
+}
+
+abstract class EffectCreator {
+  bool isEffectEnable();
+
+  void createEffect(List<EffectPoint> item);
+}
+
+class NilEffectCreator implements EffectCreator {
+  @override
+  bool isEffectEnable() => true;
+
+  @override
+  void createEffect(List<EffectPoint> item) {}
 }
