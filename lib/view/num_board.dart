@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../UX.dart';
 import '../data/grid_data.dart';
 import 'num_drawer.dart';
 
@@ -33,15 +34,15 @@ class MyPainter extends CustomPainter {
   late NumberDrawer drawer;
 
   MyPainter(this.width, this.data) {
-    double grid = width / (GridData.col);
+    double grid = width / (UX.col);
     drawer = NumberDrawer(grid);
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (int i = 0; i < GridData.row; i++) {
+    for (int i = 0; i < UX.row; i++) {
       var list = data.grids[i];
-      for (int j = 0; j < GridData.col; j++) {
+      for (int j = 0; j < UX.col; j++) {
         var content = list[j];
         if (content == 0) {
           continue;

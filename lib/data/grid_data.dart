@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../UX.dart';
+
 class GridData {
-  static const int col = 10;
-
-  static const int row = 16;
-
   static const String highestScoreKey = 'catfish.highestScore';
 
   List<List<int>> grids = [];
@@ -19,9 +17,9 @@ class GridData {
   String magicNumber = '';
 
   GridData() {
-    for (int i = 0; i < row; i++) {
+    for (int i = 0; i < UX.row; i++) {
       List<int> list = [];
-      for (int j = 0; j < col; j++) {
+      for (int j = 0; j < UX.col; j++) {
         list.add(0);
       }
       grids.add(list);
@@ -56,8 +54,8 @@ class GridData {
         '$magicNumStart${pair.toString().padLeft(2, '0')}$magicNumEnd';
 
     // 剩余空白的格子，加入随机数
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
+    for (int i = 0; i < UX.row; i++) {
+      for (int j = 0; j < UX.col; j++) {
         if (grids[i][j] != 0) {
           continue;
         }
@@ -73,8 +71,8 @@ class GridData {
       prefs.setInt(highestScoreKey, highestScore);
     }
     magicNumber = '';
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
+    for (int i = 0; i < UX.row; i++) {
+      for (int j = 0; j < UX.col; j++) {
         grids[i][j] = 0;
       }
     }
@@ -95,8 +93,8 @@ class GridData {
     }
     if (startX < 0) startX = 0;
     if (startY < 0) startY = 0;
-    if (endX >= col) endX = col - 1;
-    if (endY >= row) endY = row - 1;
+    if (endX >= UX.col) endX = UX.col - 1;
+    if (endY >= UX.row) endY = UX.row - 1;
 
     for (int i = startY; i <= endY; i++) {
       for (int j = startX; j <= endX; j++) {
@@ -127,7 +125,10 @@ class GridData {
 
   // 检查给出的格子是否是可用的
   bool checkPointAvailable((int dx, int dy) point) {
-    if (point.$1 < 0 || point.$2 < 0 || point.$1 >= col || point.$2 >= row) {
+    if (point.$1 < 0 ||
+        point.$2 < 0 ||
+        point.$1 >= UX.col ||
+        point.$2 >= UX.row) {
       return false;
     }
     if (grids[point.$2][point.$1] != 0) {
@@ -140,8 +141,8 @@ class GridData {
   (int, int, int, int) findPoint(Random random) {
     var error = (-1, -1, -1, -1);
     // 随机一个点，并检查是否可用
-    int dx = random.nextInt(col);
-    int dy = random.nextInt(row);
+    int dx = random.nextInt(UX.col);
+    int dy = random.nextInt(UX.row);
     if (!checkPointAvailable((dx, dy))) {
       return error;
     }
@@ -172,7 +173,7 @@ class GridData {
   }
 
   void printGrids() {
-    for (int i = 0; i < row; i++) {
+    for (int i = 0; i < UX.row; i++) {
       debugPrint(grids[i].toString());
     }
   }

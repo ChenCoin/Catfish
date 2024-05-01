@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../UX.dart';
 import '../data/grid_data.dart';
 
 class LineBoard extends StatelessWidget {
@@ -19,7 +20,7 @@ class _LineBoard extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & size;
     // 画棋盘线
-    var gridSize = (rect.width - 20) / (GridData.col);
+    var gridSize = (rect.width - 20) / (UX.col);
     // 加1，是让线条往内部缩进一个像素
     drawBackground(canvas, rectMap(rect, 10 + 1), gridSize);
   }
@@ -35,13 +36,13 @@ class _LineBoard extends CustomPainter {
       ..strokeWidth = 1.0;
 
     // 画横线
-    for (int i = 1; i < GridData.row; i++) {
+    for (int i = 1; i < UX.row; i++) {
       double dy = rect.top + grid * i;
       canvas.drawLine(Offset(rect.left, dy), Offset(rect.right, dy), paint);
     }
 
     // 画竖线
-    for (int i = 1; i < GridData.col; i++) {
+    for (int i = 1; i < UX.col; i++) {
       double dx = rect.left + grid * i;
       canvas.drawLine(Offset(dx, rect.top), Offset(dx, rect.bottom), paint);
     }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../UX.dart';
 import '../data/draw_data.dart';
-import '../data/grid_data.dart';
 import 'num_drawer.dart';
 
 class EffectBoard extends StatefulWidget {
@@ -82,7 +81,7 @@ class _EffectBoardPaint extends CustomPainter {
   late NumberDrawer drawer;
 
   _EffectBoardPaint(this._allItem, double width) {
-    double grid = width / (GridData.col);
+    double grid = width / (UX.col);
     drawer = NumberDrawer(grid);
   }
 

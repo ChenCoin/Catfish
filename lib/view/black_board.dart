@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/grid_data.dart';
+import '../UX.dart';
 
 class BlackBoard extends StatelessWidget {
   final Size size;
@@ -58,13 +58,13 @@ class _BlackBoard extends CustomPainter {
       ..strokeWidth = 1.0;
 
     // 画横线
-    for (int i = 1; i < GridData.row; i++) {
+    for (int i = 1; i < UX.row; i++) {
       double dy = rect.top + grid * i;
       canvas.drawLine(Offset(rect.left, dy), Offset(rect.right, dy), paint);
     }
 
     // 画竖线
-    for (int i = 1; i < GridData.col; i++) {
+    for (int i = 1; i < UX.col; i++) {
       double dx = rect.left + grid * i;
       canvas.drawLine(Offset(dx, rect.top), Offset(dx, rect.bottom), paint);
     }

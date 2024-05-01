@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
-import 'grid_data.dart';
+import '../UX.dart';
 
 class DrawData {
   EffectCreator effectCreator = NilEffectCreator();
@@ -49,9 +48,9 @@ class EffectGrids {
 
   EffectGrids(this.allItem, this.anim) {
     double minX = 0;
-    double maxX = GridData.col.toDouble();
+    double maxX = UX.col.toDouble();
     double minY = 0;
-    double maxY = GridData.row.toDouble();
+    double maxY = UX.row.toDouble();
     if (allItem.isNotEmpty) {
       minX = allItem[0].x;
       maxX = allItem[0].x;

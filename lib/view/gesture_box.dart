@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/grid_data.dart';
+import '../UX.dart';
 
 class GestureBox extends StatefulWidget {
   final void Function(Rect rect) callback;
@@ -40,7 +40,7 @@ class _GestureBoxState extends State<GestureBox> {
   }
 
   Rect mapRect(Rect src) {
-    var grid = widget.size.width / (GridData.col);
+    var grid = widget.size.width / (UX.col);
     return Rect.fromLTRB(
         src.left / grid, src.top / grid, src.right / grid, src.bottom / grid);
   }
