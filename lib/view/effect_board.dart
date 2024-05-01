@@ -36,8 +36,8 @@ class _EffectBoardState extends State<EffectBoard>
 
   @override
   void dispose() {
-    cachePair.dispose();
     super.dispose();
+    cachePair.dispose();
     widget.drawData.dispose();
   }
 
@@ -178,8 +178,7 @@ class _CachePair {
 
   void dispose() {
     for (var item in _list) {
-      var cache = item.getAnimationCache();
-      cache.$1.dispose();
+      item._cache?.$1.dispose();
     }
   }
 }
