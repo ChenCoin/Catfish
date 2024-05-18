@@ -27,7 +27,7 @@ class _SceneBoardState extends State<SceneBoard> with TickerProviderStateMixin {
     controller = AnimationController(duration: duration, vsync: this);
     // animation用于获取数值
     var curve =
-        CurvedAnimation(parent: controller, curve: Curves.linearToEaseOut);
+        CurvedAnimation(parent: controller, curve: Curves.easeOutQuad);
     anim = Tween(begin: 100.0, end: 0.0).animate(curve)
       ..addListener(() {
         setState(() {});

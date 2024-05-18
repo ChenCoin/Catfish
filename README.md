@@ -30,3 +30,4 @@ C:\flutter\bin\flutter gen-l10n
 ### todo
 
 - [ ] 适配不同分辨率的屏幕
+- [ ] 游戏结束时，消除数字，分数错误

@@ -12,7 +12,7 @@ class UX {
   static const animationDuration = 800;
 
   // 动画持续时间
-  static const enterSceneDuration = 1200;
+  static const enterSceneDuration = 800;
 
   // 动画持续时间
   static const exitSceneDuration = 1200;
