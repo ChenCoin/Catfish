@@ -62,12 +62,10 @@ class _EffectBoardState extends State<EffectBoard>
         cache.using = false;
         cache.removeListener();
         widget.drawData.remove(effectGrids);
-        debugPrint('anim end');
       }
     });
     controller.addStatusListener(cache._cacheListener);
     controller.forward();
-    debugPrint('anim start');
   }
 
   void sync() {

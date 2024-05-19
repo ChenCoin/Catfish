@@ -81,7 +81,6 @@ class _MyPainter extends CustomPainter {
           drawer.drawDirect(canvas, j.toDouble(), dy, content);
         }
       }
-      debugPrint('anim $grid ${grid * 2 * anim.value / 100}');
     }
     if (data.gameState == 4) {
       for (int i = 0; i < UX.row; i++) {
@@ -96,7 +95,6 @@ class _MyPainter extends CustomPainter {
           drawer.drawDirect(canvas, j.toDouble(), dy, content);
         }
       }
-      debugPrint('anim $grid ${grid * 2 * anim.value / 100}');
     }
   }
 
