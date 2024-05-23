@@ -223,6 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                   fontSize: 54,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'pig',
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = 6
@@ -231,9 +232,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               AppLocalizations.of(context)!.title,
               style: const TextStyle(
-                  color: Colors.amber,
-                  fontSize: 54,
-                  fontWeight: FontWeight.bold),
+                color: Colors.amber,
+                fontSize: 54,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'pig',
+              ),
             ),
           ],
         ),

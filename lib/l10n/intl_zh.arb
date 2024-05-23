@@ -1,6 +1,6 @@
 {
-    "startGame": "开始游戏",
     "title": "数字加加",
+    "startGame": "开始游戏",
     "endGame": "结束",
     "restartGame": "重新开始",
     "backHome": "回到首页",
