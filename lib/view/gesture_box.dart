@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../UX.dart';
+import '../ux.dart';
 
 class GestureBox extends StatefulWidget {
   final void Function(Rect rect) callback;

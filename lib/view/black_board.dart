@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../UX.dart';
+import '../ux.dart';
 
 class BlackBoard extends StatelessWidget {
   final Size size;

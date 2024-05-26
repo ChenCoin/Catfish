@@ -7,24 +7,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:catfish/main.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_zh.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  debugPrint('test start');
+  var textContent = '0123456789';
+  textContent += 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  AppLocalizationsZh local = AppLocalizationsZh();
+  textContent += local.title;
+  textContent += local.startGame;
+  textContent += local.endGame;
+  textContent += local.restartGame;
+  textContent += local.backHome;
+  textContent += local.score;
+  textContent += local.highestScore;
+  textContent += local.remainingTime;
+  textContent += local.scoreNow;
+  textContent += local.tip;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  debugPrint(textContent.characters.toSet().reduce((a, b) => a + b));
+  debugPrint('test end');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {});
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../UX.dart';
+import '../ux.dart';
 import '../data/draw_data.dart';
 import 'num_drawer.dart';
 
@@ -74,7 +74,7 @@ class _EffectBoardState extends State<EffectBoard>
 }
 
 class _EffectBoardPaint extends CustomPainter {
-  List<EffectGrids> _allItem;
+  final List<EffectGrids> _allItem;
 
   late NumberDrawer drawer;
 

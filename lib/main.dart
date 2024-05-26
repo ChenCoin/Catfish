@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff8A9CA0)),
         primaryColor: const Color(0xff8A9CA0),
         useMaterial3: true,
+        fontFamily: 'harmony',
       ),
       home: const MyHomePage(),
     );
@@ -244,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
         TextButton(
           onPressed: () => _onBtnTap(),
           style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+              minimumSize: WidgetStateProperty.all(const Size(200, 54))),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
@@ -306,7 +307,7 @@ class _MyHomePageState extends State<MyHomePage> {
         TextButton(
           onPressed: () => _onBackHomeBtnTap(),
           style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+              minimumSize: WidgetStateProperty.all(const Size(200, 54))),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 2),
             child: Text(
@@ -321,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
         TextButton(
           onPressed: () => _onBtnTap(),
           style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(200, 54))),
+              minimumSize: WidgetStateProperty.all(const Size(200, 54))),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 2),
             child: Text(

@@ -101,3 +101,7 @@ flutter:
       fonts:
         - asset: fonts/pig.otf
           style: normal
+    - family: harmony
+      fonts:
+        - asset: fonts/HarmonyOS_Sans_SC_Regular.ttf
+          style: normal

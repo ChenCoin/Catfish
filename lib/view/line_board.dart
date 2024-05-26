@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../UX.dart';
-import '../data/grid_data.dart';
+import '../ux.dart';
 
 class LineBoard extends StatelessWidget {
   final Size size;

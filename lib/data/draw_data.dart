@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/animation.dart';
-import '../UX.dart';
+import '../ux.dart';
 
 class DrawData {
   EffectCreator effectCreator = NilEffectCreator();

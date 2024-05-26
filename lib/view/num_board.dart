@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../UX.dart';
+import '../ux.dart';
 import '../data/grid_data.dart';
 import 'num_drawer.dart';
 

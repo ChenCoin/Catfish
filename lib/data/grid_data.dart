@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../UX.dart';
+import '../ux.dart';
 
 class GridData {
   static const String highestScoreKey = 'catfish.highestScore';

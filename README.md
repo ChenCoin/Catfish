@@ -18,8 +18,7 @@
 ### 命令行备忘
 
 1. 命令行编译Web：  
-   flutter build web --web-renderer canvaskit --release --base-href=/catfish/ 
-   flutter build web --release --base-href=/catfish/ --no-web-resources-cdn --no-tree-shake-icons --no-source-maps --csp --optimization-level=4 --wasm
+   flutter build web --release --base-href=/catfish/ --no-web-resources-cdn --optimization-level=4 --wasm
 
 2. 修改hosts文件  
 windows上hosts文件路径为 
