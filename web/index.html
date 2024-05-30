@@ -28,11 +28,49 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>Loading...</title>
+  <title>数字加加</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    .loading {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 10px solid #FFB300;
+      border-top-color: rgba(0, 0, 0, 0.2);
+      border-right-color: rgba(0, 0, 0, 0.2);
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      border-radius: 100%;
+      animation: circle infinite 0.75s linear;
+
+      margin:auto;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+    }
+
+    @keyframes circle {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
+<div class="loading"></div>
+<script>
+  function endLoading() {
+       loadingView.style.animationPlayState = "paused";
+       loadingView.style.display = "none";
+       console.log('end loading');
+  }
+  var loadingView = document.querySelector('.loading')
+  window.addEventListener('flutter-first-frame', endLoading);
+  window.addEventListener('resize', endLoading);
+</script>
 <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
